@@ -64,4 +64,3 @@ def post_review(data_dict):
     except Exception as e:
         print("Network exception occurred in post_review:", e)
         return {"status": 500, "error": str(e)}
-        

@@ -7,7 +7,11 @@ import json
 
 from .populate import initiate
 from .models import CarMake, CarModel
-from .restapis import get_request, analyze_review_sentiments, post_review
+from .restapis import (
+    get_request,
+    analyze_review_sentiments,
+    post_review,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +27,10 @@ def login_user(request):
 
     if user is not None:
         login(request, user)
-        response_data = {"userName": username, "status": "Authenticated"}
+        response_data = {
+            "userName": username,
+            "status": "Authenticated",
+        }
 
     return JsonResponse(response_data)
 
@@ -44,7 +51,10 @@ def registration(request):
 
     try:
         User.objects.get(username=username)
-        return JsonResponse({"userName": username, "error": "Already Registered"})
+        return JsonResponse({
+            "userName": username,
+            "error": "Already Registered",
+        })
     except User.DoesNotExist:
         logger.debug(f"{username} is new user")
 
@@ -56,7 +66,10 @@ def registration(request):
         email=email
     )
     login(request, user)
-    return JsonResponse({"userName": username, "status": "Authenticated"})
+    return JsonResponse({
+        "userName": username,
+        "status": "Authenticated",
+    })
 
 
 def get_dealerships(request, state="All"):
@@ -87,7 +100,10 @@ def get_dealer_details(request, dealer_id):
         dealership = get_request(endpoint)
 
         if dealership is None:
-            return JsonResponse({"status": 404, "message": "Dealer not found"})
+            return JsonResponse({
+                "status": 404,
+                "message": "Dealer not found",
+            })
 
         return JsonResponse({"status": 200, "dealer": dealership})
 
@@ -129,7 +145,10 @@ def add_review(request):
             post_review(data)
             return JsonResponse({"status": 200})
         except Exception:
-            return JsonResponse({"status": 401, "message": "Error in posting review"})
+            return JsonResponse({
+                "status": 401,
+                "message": "Error in posting review",
+            })
 
     return JsonResponse({"status": 403, "message": "Unauthorized"})
 
